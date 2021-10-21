@@ -1,7 +1,7 @@
 # SBML_to_graph
 A few *rudimentary* functions to generate metabolite graphs from SBML models. Uses ReFramed and one CarveMe function.
 
-Includes a test jupyter-notebook (and scripts) with files to try it with.
+Includes a test jupyter-notebook with files to try it with.
 
 ### `create_spare_medium`
 
