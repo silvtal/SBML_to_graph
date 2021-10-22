@@ -3,6 +3,8 @@ A few *rudimentary* functions to generate metabolite graphs from SBML models. Us
 
 Includes a test jupyter-notebook with files to try it with.
 
+![imagen](https://user-images.githubusercontent.com/41147963/138413502-9fbd892a-4e9d-4e13-9ec1-5b9c0c265fea.png)
+
 ### `create_spare_medium`
 
 This function takes a given SBML model and simulates its growth on a given medium. Then returns a list of metabolites that are the "spent media", that is, the original media with the model's secretions and without the nutrients that the model has fully consumed.
