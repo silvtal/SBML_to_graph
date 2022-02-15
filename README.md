@@ -3,7 +3,7 @@ A few *rudimentary* functions to generate metabolite graphs from SBML models. Us
 
 Includes a test jupyter-notebook with files to try it with.
 
-![imagen](https://user-images.githubusercontent.com/41147963/138413502-9fbd892a-4e9d-4e13-9ec1-5b9c0c265fea.png)
+![image](https://user-images.githubusercontent.com/41147963/154145980-01ec1ba2-89d8-47d4-a52e-570aefa129e9.png)
 
 ### `create_spare_medium`
 
