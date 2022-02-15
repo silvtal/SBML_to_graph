@@ -161,34 +161,20 @@ def reaction_parser(all_reac={}, weights={},code_to_name=None,
 
 
 
-def my_draw(adj_list=None, 
+def my_draw(my_model, my_reactions, code_to_name, 
+            exi, exr, minf, my_figsize,
+            fntsize, textrot,
+            adj_list=None, 
             given_color="black", 
             given_node_size=20,
             good_pos=None,
             label_options=None,
-            highlight=None):    """
+            highlight=None):    
+    """
     Creates a graph. Calls reaction_parser.
+
     
-    Arguments (all optional)
-    ---------
-    adj_list : list
-               previously created graph. Useful for painting a graph on top of another
-    given_color : str
-                  color for edges
-    given_node_size : int
-                      size for nodes
-    good_pos : dict
-               node positions. Can be taken from another graph with 
-               networkx.drawing.nx_agraphgraphviz_layout(existing_graph, prog='neato')
-    label_options : dict
-                    example: "{"ec": "black", "fc": "white", "alpha": 0.7}", where "ec"
-                    means box border color and "fc" means box fill color
-    highlight :  dict
-                 the dictionary keys are a color and the corresponding value is a list
-                 of metabolites to highlight
-               
-    
-    Global parameters (REQUIRED)
+    Parameters (REQUIRED)
     ----------
     my_model : CBModel 
                loaded with reframed.load_cbmodel
@@ -211,7 +197,27 @@ def my_draw(adj_list=None,
               Font size for the labels
     textrot : float
               text rotation for the labels (degrees)
+    
+    Parameters (optional)
+    ---------
+    adj_list : list
+               previously created graph. Useful for painting a graph on top of another
+    given_color : str
+                  color for edges
+    given_node_size : int
+                      size for nodes
+    good_pos : dict
+               node positions. Can be taken from another graph with 
+               networkx.drawing.nx_agraphgraphviz_layout(existing_graph, prog='neato')
+    label_options : dict
+                    example: "{"ec": "black", "fc": "white", "alpha": 0.7}", where "ec"
+                    means box border color and "fc" means box fill color
+    highlight :  dict
+                 the dictionary keys are a color and the corresponding value is a list
+                 of metabolites to highlight
+               
     """
+    
     # Create a graph with reaction_parser and code_to_name
     ###############
     all_reac=[]
@@ -237,6 +243,8 @@ def my_draw(adj_list=None,
         for col, dist in data.items():
             df.loc[row,col] = dist
 
+    df = df.fillna(df.max().max())
+     
     if good_pos == None:
         pos=nx.kamada_kawai_layout(G, dist=df.to_dict())
         label_pos=nx.kamada_kawai_layout(G, dist=df.to_dict())
@@ -255,18 +263,13 @@ def my_draw(adj_list=None,
     ###label_options = {"ec": "k", "fc": "white", "alpha": 0.7}
     text=nx.draw_networkx_labels(G, label_pos, font_size=fntsize, clip_on=False, bbox=label_options)
     ### optional highlight:
-    if (label_options != None) and (highlight != None):
+    if (highlight != None):
+        if (label_options == None):
+            label_options = {}
         for k in highlight.keys():
             selected_nodes =  [n for n,v in G.nodes(data="True") if n in highlight[k]]
             label_options["ec"] = k
             label_options["fc"] = k
-            label_options["alpha"] = 0.4
-            text=nx.draw_networkx_labels(G.subgraph(selected_nodes), label_pos, font_size=fntsize, clip_on=False, bbox=label_options)
-    if (label_options != None) and (highlight2 != None):
-        for k in highlight2.keys():
-            selected_nodes =  [n for n,v in G.nodes(data="True") if n in highlight2[k]]
-            label_options["ec"] = k
-            label_options["fc"] = "white"
             label_options["alpha"] = 0.7
             text=nx.draw_networkx_labels(G.subgraph(selected_nodes), label_pos, font_size=fntsize, clip_on=False, bbox=label_options)
 
